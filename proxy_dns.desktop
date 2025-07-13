@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Proxy DNS CloudeFlare
+Comment=Run a proxy dns of cloude flare script
+Exec=yad --notification --image="/YOUR_DIRECTORY_PATH/dns.png" --text="Proxy DNS CloudeFlare" --command="bash /YOUR_DIRECTORY_PATH/proxy_dns_dispatcher.sh" --menu="Exit!bash -c '/YOUR_DIRECTORY_PATH/proxy_dns_gui.sh exit'" --no-middle
+Icon=/YOUR_DIRECTORY_PATH/dns.png
+Terminal=false
+Type=Application
+Categories=Network;
+StartupNotify=false
+
