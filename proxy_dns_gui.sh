@@ -1,7 +1,10 @@
 #!/bin/bash
 
 # === Example DOH link => https://df654fsd6f4.cloudflare-gateway.com/dns-query
-DOH_LINK="YOUR_DOH_LINK"
+DOH_DEDICATED_LINK="YOUR_DOH_LINK"
+DOH_BACKUP_LINK1=https://1.1.1.1/dns-query
+DOH_BACKUP_LINK2=https://1.0.0.1/dns-query
+
 CLOUDFLARE_PID="/tmp/cloudflared.pid"
 
 # === Get password ===
@@ -50,7 +53,7 @@ while true; do
 	run_as_root '
   	sed -i "s/^\(nameserver .*[^#]\)/#\1/" /etc/resolv.conf
   	echo "nameserver 127.0.0.1" >> /etc/resolv.conf
-  	nohup cloudflared proxy-dns --address 127.0.0.1 --port 53 --upstream $DOH_LINK > /dev/null 2>&1 &
+  	nohup cloudflared proxy-dns --address localhost --port 53 --upstream $DOH_DEDICATED_LINK --upstream $DOH_BACKUP_LINK1 --upstream $DOH_BACKUP_LINK1 > /dev/null 2>&1 &
   	echo $! > $CLOUDFLARE_PID
 	'
 	yad --info --text="Local DNS enabled"
