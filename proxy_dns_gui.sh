@@ -11,7 +11,7 @@ CLOUDFLARE_PID="/tmp/cloudflared.pid"
 if [[ "$1" == "exit" ]]; then
 
     run_as_root '
-      sed -i "/127.0.0.1/d" /etc/resolv.conf
+      sed -i "/localhost/d" /etc/resolv.conf
       sed -i "s/^#nameserver /nameserver /" /etc/resolv.conf
       kill $(cat $CLOUDFLARE_PID 2>/dev/null) 2>/dev/null
       rm -f $CLOUDFLARE_PID
@@ -31,7 +31,7 @@ run_as_root() {
 # === Loop unlimit untile user dosen't exit | Check status DNS ===
 while true; do
 
-  if grep -q "127.0.0.1" /etc/resolv.conf; then
+  if grep -q "localhost" /etc/resolv.conf; then
 	STATUS="🟢 Active"
   else
 	STATUS="🔴 Inactive"
@@ -52,8 +52,8 @@ while true; do
     	pkill -f "cloudflared proxy-dns"
 	run_as_root '
   	sed -i "s/^\(nameserver .*[^#]\)/#\1/" /etc/resolv.conf
-  	echo "nameserver 127.0.0.1" >> /etc/resolv.conf
-  	nohup cloudflared proxy-dns --address localhost --port 53 --upstream $DOH_DEDICATED_LINK --upstream $DOH_BACKUP_LINK1 --upstream $DOH_BACKUP_LINK1 > /dev/null 2>&1 &
+  	echo "nameserver localhost" >> /etc/resolv.conf
+  	nohup cloudflared proxy-dns --address localhost --port 53 --upstream $DOH_DEDICATED_LINK --upstream $DOH_BACKUP_LINK1 --upstream $DOH_BACKUP_LINK2 > /dev/null 2>&1 &
   	echo $! > $CLOUDFLARE_PID
 	'
 	yad --info --text="Local DNS enabled"
@@ -64,7 +64,7 @@ while true; do
 
 # === Deactivation ===
 	run_as_root '
-  	sed -i "/127.0.0.1/d" /etc/resolv.conf
+  	sed -i "/localhost/d" /etc/resolv.conf
   	sed -i "s/^#nameserver /nameserver /" /etc/resolv.conf
   	kill $(cat $CLOUDFLARE_PID 2>/dev/null) 2>/dev/null
   	rm -f $CLOUDFLARE_PID
