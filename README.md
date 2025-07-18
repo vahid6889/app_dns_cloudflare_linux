@@ -1,4 +1,4 @@
-# Setter DNS cloudflare in linux <img src="Assets/dns.png" align="right"/><br><br>
+# Setter DNS cloudflare in linux <img src="Assets/dns.png" width="20" height="20" align="right"/><br><br>
 A desktop application for set system cloudflare DNS on linux with Yad tool that made graphical dialogs to shell script
 
 <hr>
