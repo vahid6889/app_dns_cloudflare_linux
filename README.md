@@ -3,6 +3,6 @@ A desktop application for set system cloudflare DNS on linux with Yad tool that 
 
 <hr>
 <p align="center">
-  <img src="Assets/Preview_App.png" width="200" height="400" />
+  <img src="Assets/Preview_App.png" width="400" height="300" />
 </p>
 <hr>
